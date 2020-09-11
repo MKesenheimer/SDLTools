@@ -2,7 +2,6 @@
  *  Utilities.h
  *  Created by Matthias Kesenheimer on 11.01.12.
  *  Copyright 2012. All rights reserved.
- *
  */
 #pragma once
 #include <utility>
@@ -16,17 +15,17 @@ namespace sdl::auxiliary {
         inline static float getAngle(float x, float y) {
             float theta = 0.0f;
             if ( x>0 ) {
-            theta = atan(y/x);
+                theta = atan(y/x);
             } else if ( x<0.0f && y>=0.0f ) {
-            theta = atan(y/x) + M_PI;
+                theta = atan(y/x) + M_PI;
             } else if ( x<0.0f && y<0.0f ) {
-            theta = atan(y/x) - M_PI;
+                theta = atan(y/x) - M_PI;
             } else if ( x==0.0f && y>0.0f ) {
-            theta = M_PI/2.0f;
+                theta = M_PI/2.0f;
             } else if ( x==0.0f && y<0.0f ) {
-            theta = -M_PI/2.0f;
+                theta = -M_PI/2.0f;
             } else {
-            theta = 0.0f;
+                theta = 0.0f;
             }
             return theta;
         }
