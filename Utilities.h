@@ -152,10 +152,9 @@ namespace sdl::auxiliary {
             SDL_FreeSurface(surf);
         }
         
-        /*
-        * Recurse through the list of arguments to clean up, cleaning up
-        * the first one in the list each iteration.
-        */
+        
+        // Recurse through the list of arguments to clean up, cleaning up
+        // the first one in the list each iteration.
         template<typename T, typename... Args>
         inline static void cleanup(T *t, Args&&... args)
         {
@@ -163,6 +162,26 @@ namespace sdl::auxiliary {
             cleanup(t);
             // Clean up the remaining arguments
             cleanup(std::forward<Args>(args)...);
+        }
+
+        // Draw an SDL_Texture to an SDL_Renderer at position x, y, with some desired
+        // width and height
+        inline static void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y, int w, int h){
+            //Setup the destination rectangle to be at the position we want
+            SDL_Rect dst;
+            dst.x = x;
+            dst.y = y;
+            dst.w = w;
+            dst.h = h;
+            SDL_RenderCopy(ren, tex, NULL, &dst);
+        }
+
+        // Draw an SDL_Texture to an SDL_Renderer at position x, y, preserving
+        // the texture's width and height
+        inline static void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y){
+            int w, h;
+            SDL_QueryTexture(tex, NULL, NULL, &w, &h);
+            renderTexture(tex, ren, x, y, w, h);
         }
     };
 }
