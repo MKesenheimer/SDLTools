@@ -6,6 +6,7 @@
 #pragma once
 #include <utility>
 #include <SDL.h>
+#include <SDL2_gfxPrimitives.h>
 
 namespace sdl::auxiliary {
     class Utilities
