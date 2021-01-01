@@ -7,6 +7,7 @@
 #include <utility>
 #include <SDL.h>
 #include <SDL2_gfxPrimitives.h>
+#include <cmath>
 
 namespace sdl::auxiliary {
     class Utilities
@@ -15,16 +16,16 @@ namespace sdl::auxiliary {
         // get the angle in respect to the x-axis from a vector with x & y coordinates
         inline static float getAngle(float x, float y) {
             float theta = 0.0f;
-            if ( x>0 ) {
-                theta = atan(y/x);
-            } else if ( x<0.0f && y>=0.0f ) {
-                theta = atan(y/x) + M_PI;
-            } else if ( x<0.0f && y<0.0f ) {
-                theta = atan(y/x) - M_PI;
-            } else if ( x==0.0f && y>0.0f ) {
-                theta = M_PI/2.0f;
-            } else if ( x==0.0f && y<0.0f ) {
-                theta = -M_PI/2.0f;
+            if (x > 0) {
+                theta = std::atan(y / x);
+            } else if (x < 0.0f && y >= 0.0f) {
+                theta = std::atan(y / x) + M_PI;
+            } else if (x < 0.0f && y < 0.0f) {
+                theta = std::atan(y / x) - M_PI;
+            } else if (x == 0.0f && y > 0.0f) {
+                theta = M_PI / 2.0f;
+            } else if (x == 0.0f && y < 0.0f) {
+                theta = -M_PI / 2.0f;
             } else {
                 theta = 0.0f;
             }
@@ -62,52 +63,52 @@ namespace sdl::auxiliary {
             const float y1f = (float)y1;
             const float y2f = (float)y2;
             float ampf = (float)amp;
-            const float theta = getAngle(x2f-x1f, y2f-y1f);;
+            const float theta = getAngle(x2f - x1f, y2f - y1f);;
             
             // constants
-            const int npoints = 12;
-            const float SQRT2 = 1.41421356f;
-            const float Y1 = (2.0f*SQRT2)/7.0f - 1.0f/7.0f;
-            const float Y2 = (4.0f*SQRT2)/7.0f - 2.0f/7.0f;
-            const float Y3 = SQRT2/2.0f;
-            const float Y4 = (3.0f*SQRT2)/7.0f + 2.0f/7.0f;
+            const int npoints = 12; // TODO: als Parameter übergeben
+            const float sqrt2 = 1.41421356f;
+            const float Y1 = (2.0f * sqrt2) / 7.0f - 1.0f / 7.0f;
+            const float Y2 = (4.0f * sqrt2) / 7.0f - 2.0f / 7.0f;
+            const float Y3 = sqrt2 / 2.0f;
+            const float Y4 = (3.0f * sqrt2) / 7.0f + 2.0f / 7.0f;
             const float PI = 3.1415926535897f;
             const float XD = 0.261799388f;
-            const float width = sqrt(pow((x1f-x2f),2) + pow((y1f-y2f),2));
+            const float width = std::sqrt(std::pow((x1f - x2f), 2) + std::pow((y1f - y2f), 2));
             const float xmu1 = width / (num_half_waves * PI);
             const float xd1 = XD * xmu1;
             
             float xf = 0.0f;
             float yf = 0.0f;
-            short s[npoints*num_half_waves];
-            short t[npoints*num_half_waves];
-            for (int i=0; i<num_half_waves; i++) {
-                int j=0;
-                s[i*npoints+j] = (short)(xf+1.0f*xd1);  t[i*npoints+j] = (short)(yf+ampf*Y1); j++;
-                s[i*npoints+j] = (short)(xf+2.0f*xd1);  t[i*npoints+j] = (short)(yf+ampf*Y2); j++;
-                s[i*npoints+j] = (short)(xf+3.0f*xd1);  t[i*npoints+j] = (short)(yf+ampf*Y3); j++;
-                s[i*npoints+j] = (short)(xf+4.0f*xd1);  t[i*npoints+j] = (short)(yf+ampf*Y4); j++;
-                s[i*npoints+j] = (short)(xf+5.0f*xd1);  t[i*npoints+j] = (short)(yf+ampf);    j++;
-                s[i*npoints+j] = (short)(xf+6.0f*xd1);  t[i*npoints+j] = (short)(yf+ampf);    j++;
-                s[i*npoints+j] = (short)(xf+7.0f*xd1);  t[i*npoints+j] = (short)(yf+ampf);    j++;
-                s[i*npoints+j] = (short)(xf+8.0f*xd1);  t[i*npoints+j] = (short)(yf+ampf);    j++;
-                s[i*npoints+j] = (short)(xf+9.0f*xd1);  t[i*npoints+j] = (short)(yf+ampf*Y4); j++;
-                s[i*npoints+j] = (short)(xf+10.0f*xd1); t[i*npoints+j] = (short)(yf+ampf*Y3); j++;
-                s[i*npoints+j] = (short)(xf+11.0f*xd1); t[i*npoints+j] = (short)(yf+ampf*Y2); j++;
-                s[i*npoints+j] = (short)(xf+12.0f*xd1); t[i*npoints+j] = (short)(yf+ampf*Y1); j++;
+            short s[npoints * num_half_waves];
+            short t[npoints * num_half_waves];
+            for (int i = 0; i < num_half_waves; i++) {
+                int j = 0;
+                s[i * npoints + j] = (short)(xf + 1.0f * xd1);  t[i * npoints + j] = (short)(yf + ampf * Y1); j++;
+                s[i * npoints + j] = (short)(xf + 2.0f * xd1);  t[i * npoints + j] = (short)(yf + ampf * Y2); j++;
+                s[i * npoints + j] = (short)(xf + 3.0f * xd1);  t[i * npoints + j] = (short)(yf + ampf * Y3); j++;
+                s[i * npoints + j] = (short)(xf + 4.0f * xd1);  t[i * npoints + j] = (short)(yf + ampf * Y4); j++;
+                s[i * npoints + j] = (short)(xf + 5.0f * xd1);  t[i * npoints + j] = (short)(yf + ampf);      j++;
+                s[i * npoints + j] = (short)(xf + 6.0f * xd1);  t[i * npoints + j] = (short)(yf + ampf);      j++;
+                s[i * npoints + j] = (short)(xf + 7.0f * xd1);  t[i * npoints + j] = (short)(yf + ampf);      j++;
+                s[i * npoints + j] = (short)(xf + 8.0f * xd1);  t[i * npoints + j] = (short)(yf + ampf);      j++;
+                s[i * npoints + j] = (short)(xf + 9.0f * xd1);  t[i * npoints + j] = (short)(yf + ampf * Y4); j++;
+                s[i * npoints + j] = (short)(xf + 10.0f * xd1); t[i * npoints + j] = (short)(yf + ampf * Y3); j++;
+                s[i * npoints + j] = (short)(xf + 11.0f * xd1); t[i * npoints + j] = (short)(yf + ampf * Y2); j++;
+                s[i * npoints + j] = (short)(xf + 12.0f * xd1); t[i * npoints + j] = (short)(yf + ampf * Y1); j++;
                     
                 xf += (width / num_half_waves);
                 ampf = - ampf;
             }
             
-            short ss[npoints*num_half_waves];
-            short ts[npoints*num_half_waves];
-            float cosQ = cos(theta);
-            float sinQ = sin(theta);
-            for (int i=0; i<num_half_waves; i++) {
-                for (int j=0; j<npoints; j++) {
-                    ss[i*npoints+j] = cosQ*s[i*npoints+j] - sinQ*t[i*npoints+j] + x1;
-                    ts[i*npoints+j] = sinQ*s[i*npoints+j] + cosQ*t[i*npoints+j] + y1;
+            short ss[npoints * num_half_waves];
+            short ts[npoints * num_half_waves];
+            float cosQ = std::cos(theta);
+            float sinQ = std::sin(theta);
+            for (int i = 0; i < num_half_waves; i++) {
+                for (int j=0; j < npoints; j++) {
+                    ss[i * npoints + j] = cosQ * s[i * npoints + j] - sinQ * t[i * npoints + j] + x1;
+                    ts[i * npoints + j] = sinQ * s[i * npoints + j] + cosQ * t[i * npoints + j] + y1;
                 }
             }
             
