@@ -189,30 +189,36 @@ namespace sdl::auxiliary {
         // Render text (without alpha blending)
         // be sure to call TTF_Init() before using this function
         inline static void renderText(const std::string &message, const std::string &fontFile, SDL_Color color, int fontSize, SDL_Renderer *renderer, int x, int y) {
-	        TTF_Font *font = TTF_OpenFont(fontFile.c_str(), fontSize);
+            TTF_Font *font = TTF_OpenFont(fontFile.c_str(), fontSize);
             if(font == NULL) {
                 std::cout << "renderText: Could not load font" << std::endl;
             }
-	        renderText(message, font, color, renderer, x, y);
-	        TTF_CloseFont(font);
+            renderText(message, font, color, renderer, x, y);
+            TTF_CloseFont(font);
         }
 
         inline static void renderText(const std::string &message, TTF_Font* font, SDL_Color color, SDL_Renderer *renderer, int x, int y) {
-	        SDL_Surface *surf = TTF_RenderUTF8_Blended(font, message.c_str(), color);
+            SDL_Surface *surf = TTF_RenderUTF8_Blended(font, message.c_str(), color);
             if(surf == NULL) {
                 std::cout << "renderText:: Could not create surface." << std::endl;
             }
 
-	        SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surf);
+            SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surf);
             if(texture == NULL) {
                 std::cout << "renderText: Could not create texture." << std::endl;
             }
 
             renderTexture(texture, renderer, x, y);
 
-	        // Clean up the surface and font
-	        SDL_FreeSurface(surf);
+            // Clean up the surface and font
+            SDL_FreeSurface(surf);
             SDL_DestroyTexture(texture);
+        }
+
+        // constrain a number between two boundaries
+        template<typename T> 
+        inline static T constrain(T value, T min, T max) {
+            return std::min(std::max(value, min), max);
         }
     };
 }
