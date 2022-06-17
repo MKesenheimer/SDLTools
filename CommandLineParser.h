@@ -6,7 +6,7 @@
 #pragma once
 #include <string>
 #include <algorithm>
-#include "Utilities.h"
+#include "GameLibrary/Algorithms.h"
 
 namespace sdl::auxiliary {
     class CommandLineParser
@@ -40,16 +40,17 @@ namespace sdl::auxiliary {
             return tmp;
         }
 
-        static inline int readCmdInt(char** begin, char** end, const std::string& option, int lower = 0, int upper = 0) {
+        template<typename T>
+        static inline T readCmdOption(char** begin, char** end, const std::string& option, T lower = 0, T upper = 0) {
             if (!cmdOptionExists(begin, end, option))
                 return 0;
             
             std::string tmp = readCmdOption(begin, end, option);
-            return strToInt(tmp, lower, upper);
+            return Algorithms::strTo<T>(tmp, lower, upper);
         }
 
         // read in list of values: -option 1,2,3,4
-        static inline std::vector<std::string> readCmdList(char** begin, char** end, const std::string& option, const std::string& delimiter = ",") {
+        static inline std::vector<std::string> readCmdOptionList(char** begin, char** end, const std::string& option, const std::string& delimiter = ",") {
             if (!cmdOptionExists(begin, end, option))
                 return std::vector<std::string>();
 
@@ -66,19 +67,18 @@ namespace sdl::auxiliary {
             return tmp2;
         }
 
-        static inline std::vector<int> readCmdListInt(char** begin, char** end, const std::string& option, int lower = 0, int upper = 0, const std::string& delimiter = ",") {
+        template<typename T>
+        static inline std::vector<T> readCmdOptionList(char** begin, char** end, const std::string& option, T lower = 0, T upper = 0, const std::string& delimiter = ",") {
             if (!cmdOptionExists(begin, end, option))
-                return std::vector<int>();
+                return std::vector<T>();
 
-            std::vector<std::string> s = readCmdList(begin, end, option, delimiter);
-            std::vector<int> tmp;
+            std::vector<std::string> s = readCmdOptionList(begin, end, option, delimiter);
+            std::vector<T> tmp;
             for (const std::string& str : s) {
-                tmp.push_back(strToInt(str, lower, upper));
+                tmp.push_back(Algorithms::strTo<T>(str, lower, upper));
             }
             return tmp;
         }
-
-
 
         // replace \ with / and // with /
         static inline void normalizePath(std::string& path) {
@@ -99,23 +99,6 @@ namespace sdl::auxiliary {
                 path = start + rest;
                 pos = path.find("//");
             }
-        }
-
-    private:
-        static inline int strToInt(const std::string& str, int lower = 0, int upper = 0) {
-            int tmp = 0;
-            try { 
-                tmp = std::stoi(str);
-                if (lower != 0 || upper != 0) {
-                    if (tmp < lower || tmp > upper) {
-                        std::cout << "Warning: Number not in range: " << tmp << ", (" << lower << ", " << upper << ")" << std::endl;
-                        return Utilities::constrain<int>(tmp, lower, upper);
-                    }
-                }
-            } catch (const std::exception& e) {
-                std::cout << "Warning: " << e.what() << ": No input number: " << tmp << std::endl;
-            }
-            return tmp;
         }
     };
 }

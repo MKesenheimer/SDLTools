@@ -214,11 +214,5 @@ namespace sdl::auxiliary {
             SDL_FreeSurface(surf);
             SDL_DestroyTexture(texture);
         }
-
-        // constrain a number between two boundaries
-        template<typename T> 
-        inline static T constrain(T value, T min, T max) {
-            return std::min(std::max(value, min), max);
-        }
     };
 }
