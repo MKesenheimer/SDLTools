@@ -6,9 +6,25 @@
 #pragma once
 #include <string>
 #include <algorithm>
+#include <limits>
 #include "GameLibrary/Algorithms.h"
 
 namespace sdl::auxiliary {
+    // cin with checks
+    template<class T> 
+    inline T ccin(std::string s) {
+        T input;
+        std::cout << s;
+        std::cin >> input;
+        while (!std::cin.good()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << s;
+            std::cin >> input;
+        }
+        return input;
+    }
+
     class CommandLineParser
     {
     public:
