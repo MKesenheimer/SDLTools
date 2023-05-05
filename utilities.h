@@ -11,8 +11,7 @@
 #include <cmath>
 
 namespace sdl::auxiliary {
-    class Utilities
-    {
+    class utilities {
     public:
         // get the angle in respect to the x-axis from a vector with x & y coordinates
         inline static float getAngle(float x, float y) {
@@ -159,8 +158,7 @@ namespace sdl::auxiliary {
         // Recurse through the list of arguments to clean up, cleaning up
         // the first one in the list each iteration.
         template<typename T, typename... Args>
-        inline static void cleanup(T *t, Args&&... args)
-        {
+        inline static void cleanup(T *t, Args&&... args) {
             // Cleanup the first item in the list
             cleanup(t);
             // Clean up the remaining arguments
@@ -169,7 +167,7 @@ namespace sdl::auxiliary {
 
         // Draw an SDL_Texture to an SDL_Renderer at position x, y, with some desired
         // width and height
-        inline static void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y, int w, int h){
+        inline static void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y, int w, int h) {
             //Setup the destination rectangle to be at the position we want
             SDL_Rect dst;
             dst.x = x;
@@ -181,7 +179,7 @@ namespace sdl::auxiliary {
 
         // Draw an SDL_Texture to an SDL_Renderer at position x, y, preserving
         // the texture's width and height
-        inline static void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y){
+        inline static void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y) {
             int w, h;
             SDL_QueryTexture(tex, NULL, NULL, &w, &h);
             renderTexture(tex, ren, x, y, w, h);

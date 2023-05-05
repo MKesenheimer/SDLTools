@@ -7,7 +7,7 @@
 #include <string>
 #include <algorithm>
 #include <limits>
-#include "GameLibrary/Algorithms.h"
+#include "GameLibrary/algorithms.h"
 
 namespace sdl::auxiliary {
     // cin with checks
@@ -25,7 +25,7 @@ namespace sdl::auxiliary {
         return input;
     }
 
-    class CommandLineParser
+    class commandLineParser
     {
     public:
         // reads the string after the identifier option, i.e. for arg** = -i path "path" is returned if option = "-i"
@@ -62,7 +62,7 @@ namespace sdl::auxiliary {
                 return 0;
             
             std::string tmp = readCmdOption(begin, end, option);
-            return Algorithms::strTo<T>(tmp, lower, upper);
+            return algorithms::strTo<T>(tmp, lower, upper);
         }
 
         // read in list of values: -option 1,2,3,4
@@ -91,7 +91,7 @@ namespace sdl::auxiliary {
             std::vector<std::string> s = readCmdOptionList(begin, end, option, delimiter);
             std::vector<T> tmp;
             for (const std::string& str : s) {
-                tmp.push_back(Algorithms::strTo<T>(str, lower, upper));
+                tmp.push_back(algorithms::strTo<T>(str, lower, upper));
             }
             return tmp;
         }

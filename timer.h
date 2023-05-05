@@ -1,12 +1,12 @@
 /*
- *  Timer.h
+ *  timer.h
  *  Created by Matthias Kesenheimer on 11.01.12.
  *  Copyright 2012. All rights reserved.
  */
 #pragma once
 
 namespace sdl::auxiliary {
-    class Timer {
+    class timer {
     private:
         int startTicks;
         int pausedTicks;
@@ -15,7 +15,7 @@ namespace sdl::auxiliary {
         bool started;
 
     public:
-        Timer() {
+        timer() {
             startTicks = 0;
             pausedTicks = 0;
             paused = false;
